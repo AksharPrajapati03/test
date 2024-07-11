@@ -49,18 +49,18 @@ app.post('/facebook', function (req, res) {
   // Process the Facebook updates here
   received_updates.unshift(req.body);
   console.log("Data received")
-  fetch(process.env.URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(req.body)
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Forwarded to Frappe:', data);
-    })
-    .catch(error => {
-      console.error('Error forwarding to Frappe:', error);
-    });
+  // fetch(process.env.URL, {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify(req.body)
+  // })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log('Forwarded to Frappe:', data);
+  //   })
+  //   .catch(error => {
+  //     console.error('Error forwarding to Frappe:', error);
+  //   });
   res.sendStatus(200);
 });
 
