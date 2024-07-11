@@ -36,7 +36,7 @@ app.get(['/facebook', '/instagram'], function (req, res) {
   }
 });
 
-app.post('/facebook', function (req, res) {
+app.post('/facebook', async function (req, res) {
   console.log('Facebook request body:', req.body);
 
   if (!req.isXHubValid()) {
@@ -49,19 +49,23 @@ app.post('/facebook', function (req, res) {
   // Process the Facebook updates here
   received_updates.unshift(req.body);
   console.log("Data received")
-  // fetch(process.env.URL, {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(req.body)
-  // })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     console.log('Forwarded to Frappe:', data);
-  //   })
-  //   .catch(error => {
-  //     console.error('Error forwarding to Frappe:', error);
-  //   });
-  res.sendStatus(200);
+  try {
+    const data = await fetch(process.env.URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req.body)
+    });
+
+    const response = await data.json();
+    console.log("Response received")
+    console.log(response);
+
+    res.sendStatus(200);
+  } catch (e) {
+    console.log("ERROR: " + e);
+    res.sendStatus(500);
+  }
+
 });
 
 app.post('/instagram', function (req, res) {
